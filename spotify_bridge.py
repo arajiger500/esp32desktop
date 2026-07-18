@@ -5,10 +5,10 @@ from spotipy.oauth2 import SpotifyOAuth
 # 1. Create an app at https://developer.spotify.com/dashboard
 # 2. Create the app first with just a name/description.
 # 3. Once created, click "Edit Settings".
-# 4. Add this exact Redirect URI: http://YOUR_IP_ADDRESS:8888/
-#    (Replace YOUR_IP_ADDRESS with the actual IP of the machine running this script)
-CLIENT_ID = '192.168.1.114'
-CLIENT_SECRET = '43ef35a02eaf40d8913ee9ad73158cff'
+# 4. Add this exact Redirect URI: http://192.168.1.114:8888/
+#    (Replace these with your actual credentials from the Dashboard)
+CLIENT_ID = 'YOUR_ACTUAL_CLIENT_ID_FROM_SPOTIFY_DASHBOARD'
+CLIENT_SECRET = 'YOUR_ACTUAL_CLIENT_SECRET_FROM_SPOTIFY_DASHBOARD'
 REDIRECT_URI = 'http://192.168.1.114:8888/'
 
 app = Flask(__name__)
@@ -49,5 +49,5 @@ def get_spotify_status():
 
 if __name__ == '__main__':
     # Run on port 5000. 
-    # Make sure your ESP32 code points to http://<YOUR_PC_IP>:5000/spotify
+    # Make sure your ESP32 code points to http://192.168.1.114:5000/spotify
     app.run(host='0.0.0.0', port=5000)
