@@ -7,11 +7,11 @@
 #include <time.h>
 
 // Wi-Fi Credentials
-const char* ssid = "TP-Link_C895_plus";
-const char* password = "93962841";
+const char* ssid = "";
+const char* password = "";
 
 // Spotify API / Web-hook configuration
-const char* spotifyStatusUrl = "http://192.168.1.114:8888/spotify"; 
+const char* spotifyStatusUrl = "; 
 
 // ============================================================================
 // OLED DISPLAY CONFIGURATION
