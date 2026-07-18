@@ -14,19 +14,19 @@ const char* spotifyStatusUrl = "http://your-local-server-or-api/spotify";
 
 // ============================================================================
 // OLED DISPLAY CONFIGURATION
-// We have set the default to Option 3 (I2C SSD1306), which is the most common.
+// Configured for SH1106 4-Wire SPI
 // ============================================================================
 
-// OPTION 1: 4-Wire SPI SH1106 (1.3" OLED) - Hardware SPI
+// OPTION 1: 4-Wire SPI SH1106 (1.3" OLED) - Hardware SPI (ACTIVE)
 // Pins: CS=5, DC=16, RST=17. SCK must connect to GPIO 18, MOSI to GPIO 23.
-// U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 5, /* dc=*/ 16, /* reset=*/ 17);
+U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 5, /* dc=*/ 16, /* reset=*/ 17);
 
 // OPTION 2: 4-Wire SPI SSD1306 (0.96" OLED) - Hardware SPI
 // U8G2_SSD1306_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 5, /* dc=*/ 16, /* reset=*/ 17);
 
-// OPTION 3: I2C SSD1306 (0.96" OLED with 4 pins: VCC, GND, SCL, SDA) - VERY COMMON (DEFAULT ACTIVE)
+// OPTION 3: I2C SSD1306 (0.96" OLED with 4 pins: VCC, GND, SCL, SDA)
 // Pins: SDA=GPIO 21, SCL=GPIO 22 (Default ESP32 I2C pins)
-U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE, /* clock=*/ 22, /* data=*/ 21);
+// U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE, /* clock=*/ 22, /* data=*/ 21);
 
 // OPTION 4: I2C SH1106 (1.3" OLED with 4 pins: VCC, GND, SCL, SDA)
 // Pins: SDA=GPIO 21, SCL=GPIO 22
@@ -42,12 +42,8 @@ void setup() {
   delay(1000);
   Serial.println("Starting ESP32 Spotify Desktop Display...");
 
-  // Initialize I2C pins explicitly
-  Serial.println("Initializing I2C Wire interface (SDA=21, SCL=22)...");
-  Wire.begin(21, 22);
-
   // Initialize OLED display
-  Serial.println("Initializing OLED display...");
+  Serial.println("Initializing OLED display (SH1106 4-Wire SPI)...");
   if (u8g2.begin()) {
     Serial.println("OLED initialized successfully!");
   } else {
