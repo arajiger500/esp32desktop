@@ -66,6 +66,7 @@ void fetchSpotifyData() {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
     http.begin(spotifyStatusUrl);
+    http.setTimeout(2000); // Added timeout to prevent hanging
     int httpCode = http.GET();
 
     if (httpCode > 0) {
