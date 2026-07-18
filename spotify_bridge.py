@@ -22,7 +22,8 @@ scope = "user-read-currently-playing"
 sp_oauth = SpotifyOAuth(client_id=CLIENT_ID,
                         client_secret=CLIENT_SECRET,
                         redirect_uri=REDIRECT_URI,
-                        scope=scope)
+                        scope=scope,
+                        open_browser=True) # Ensure browser opens for auth
 
 @app.route('/spotify')
 def get_spotify_status():
