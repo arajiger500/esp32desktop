@@ -54,11 +54,15 @@ def get_spotify_status():
         if current_track and current_track['is_playing']:
             track_name = current_track['item']['name']
             artist_name = current_track['item']['artists'][0]['name']
-            return f"{track_name} - {artist_name}"
+            album_name = current_track['item']['album']['name']
+            progress_ms = current_track['progress_ms']
+            duration_ms = current_track['item']['duration_ms']
+            # Return pipe-delimited data for the ESP32
+            return f"{track_name}|{artist_name}|{album_name}|{progress_ms}|{duration_ms}"
         else:
-            return "Paused - Spotify"
+            return "Paused|Spotify|None|0|0"
     except Exception as e:
-        return f"Error: {str(e)}", 500
+        return f"Error|{str(e)}|None|0|0", 500
 
 if __name__ == '__main__':
     # Listen on port 8888 to handle the Spotify redirect
