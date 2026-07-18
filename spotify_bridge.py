@@ -5,10 +5,11 @@ from spotipy.oauth2 import SpotifyOAuth
 # 1. Create an app at https://developer.spotify.com/dashboard
 # 2. Create the app first with just a name/description.
 # 3. Once created, click "Edit Settings".
-# 4. Add this exact Redirect URI: http://localhost:8888/
+# 4. Add this exact Redirect URI: http://YOUR_IP_ADDRESS:8888/
+#    (Replace YOUR_IP_ADDRESS with the actual IP of the machine running this script)
 CLIENT_ID = 'YOUR_CLIENT_ID'
 CLIENT_SECRET = 'YOUR_CLIENT_SECRET'
-REDIRECT_URI = 'http://localhost:8888/'
+REDIRECT_URI = 'http://YOUR_IP_ADDRESS:8888/'
 
 app = Flask(__name__)
 
