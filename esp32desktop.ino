@@ -10,6 +10,10 @@ const char* ssid = "YOUR_WIFI_SSID";
 const char* password = "YOUR_WIFI_PASSWORD";
 
 // Spotify API / Web-hook configuration
+// NOTE: The ESP32 cannot easily handle Spotify's OAuth2 authentication directly.
+// You need a local server (e.g., running on a PC or Raspberry Pi) that authenticates
+// with Spotify and exposes a simple HTTP endpoint (like this URL) that returns
+// the current track info as plain text (e.g., "Song Title - Artist Name").
 const char* spotifyStatusUrl = "http://your-local-server-or-api/spotify"; 
 
 // ============================================================================
