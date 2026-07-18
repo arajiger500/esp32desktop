@@ -10,8 +10,8 @@ const char* ssid = "TP-Link_C895_plus";
 const char* password = "93962841";
 
 // Spotify API / Web-hook configuration
-// This points to the computer running your Python script on port 5000
-const char* spotifyStatusUrl = "http://192.168.1.114:5000/spotify"; 
+// Now pointing to port 8888 where the bridge is listening
+const char* spotifyStatusUrl = "http://192.168.1.114:8888/spotify"; 
 
 // ============================================================================
 // OLED DISPLAY CONFIGURATION (Working Pins & Constructor)

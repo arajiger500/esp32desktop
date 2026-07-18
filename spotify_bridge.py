@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
@@ -6,7 +6,6 @@ from spotipy.oauth2 import SpotifyOAuth
 # 2. Create the app first with just a name/description.
 # 3. Once created, click "Edit Settings".
 # 4. Add this exact Redirect URI: http://192.168.1.114:8888/
-#    (Replace these with your actual credentials from the Dashboard)
 CLIENT_ID = 'da2963603f0847ef910b259537463c97'
 CLIENT_SECRET = '43ef35a02eaf40d8913ee9ad73158cff'
 REDIRECT_URI = 'http://192.168.1.114:8888/'
@@ -17,22 +16,29 @@ app = Flask(__name__)
 scope = "user-read-currently-playing"
 
 # Setup OAuth
-# Note: If you get a "redirect_uri_mismatch" error, ensure the URI in the 
-# Spotify Dashboard matches the REDIRECT_URI variable above exactly.
 sp_oauth = SpotifyOAuth(client_id=CLIENT_ID,
                         client_secret=CLIENT_SECRET,
                         redirect_uri=REDIRECT_URI,
                         scope=scope,
-                        open_browser=True) # Ensure browser opens for auth
+                        open_browser=True)
+
+@app.route('/')
+def index():
+    # This handles the redirect from Spotify
+    code = request.args.get('code')
+    if code:
+        sp_oauth.get_access_token(code)
+        return "Authentication successful! You can close this window."
+    return "Authentication in progress..."
 
 @app.route('/spotify')
 def get_spotify_status():
-    print("Request received from ESP32!") # Debugging log
-    # Get cached token or prompt for login if needed
+    print("Request received from ESP32!")
+    # Get cached token
     token_info = sp_oauth.get_cached_token()
     
     if not token_info:
-        return "Not authenticated. Please run the script locally first to authorize.", 401
+        return "Not authenticated.", 401
 
     sp = spotipy.Spotify(auth=token_info['access_token'])
     
@@ -42,7 +48,6 @@ def get_spotify_status():
         if current_track and current_track['is_playing']:
             track_name = current_track['item']['name']
             artist_name = current_track['item']['artists'][0]['name']
-            # Return the format the ESP32 expects
             return f"{track_name} - {artist_name}"
         else:
             return "Paused - Spotify"
@@ -50,6 +55,5 @@ def get_spotify_status():
         return f"Error: {str(e)}", 500
 
 if __name__ == '__main__':
-    # Run on port 5000. 
-    # Make sure your ESP32 code points to http://192.168.1.114:5000/spotify
-    app.run(host='0.0.0.0', port=5000)
+    # Listen on port 8888 to handle the Spotify redirect
+    app.run(host='0.0.0.0', port=8888)
