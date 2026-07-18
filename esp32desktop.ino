@@ -14,23 +14,19 @@ const char* spotifyStatusUrl = "http://your-local-server-or-api/spotify";
 
 // ============================================================================
 // OLED DISPLAY CONFIGURATION
-// Configured for SH1106 4-Wire SPI
+// Configured for SH1106 4-Wire Software SPI (More reliable pin configuration)
 // ============================================================================
 
-// OPTION 1: 4-Wire SPI SH1106 (1.3" OLED) - Hardware SPI (ACTIVE)
-// Pins: CS=5, DC=16, RST=17. SCK must connect to GPIO 18, MOSI to GPIO 23.
-U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 5, /* dc=*/ 16, /* reset=*/ 17);
+// OPTION 1: 4-Wire Software SPI SH1106 (1.3" OLED) - ACTIVE
+// This allows you to define every pin explicitly. Change the pin numbers below to match your wiring!
+// Pins: clock=18 (D0/SCK), data=23 (D1/MOSI), cs=5, dc=16, reset=17
+U8G2_SH1106_128X64_NONAME_F_4W_SW_SPI u8g2(U8G2_R0, /* clock=*/ 18, /* data=*/ 23, /* cs=*/ 5, /* dc=*/ 16, /* reset=*/ 17);
 
-// OPTION 2: 4-Wire SPI SSD1306 (0.96" OLED) - Hardware SPI
-// U8G2_SSD1306_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 5, /* dc=*/ 16, /* reset=*/ 17);
+// OPTION 2: 4-Wire Hardware SPI SH1106 (1.3" OLED)
+// U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 5, /* dc=*/ 16, /* reset=*/ 17);
 
 // OPTION 3: I2C SSD1306 (0.96" OLED with 4 pins: VCC, GND, SCL, SDA)
-// Pins: SDA=GPIO 21, SCL=GPIO 22 (Default ESP32 I2C pins)
 // U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE, /* clock=*/ 22, /* data=*/ 21);
-
-// OPTION 4: I2C SH1106 (1.3" OLED with 4 pins: VCC, GND, SCL, SDA)
-// Pins: SDA=GPIO 21, SCL=GPIO 22
-// U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE, /* clock=*/ 22, /* data=*/ 21);
 // ============================================================================
 
 // Variables to store track info
@@ -43,7 +39,7 @@ void setup() {
   Serial.println("Starting ESP32 Spotify Desktop Display...");
 
   // Initialize OLED display
-  Serial.println("Initializing OLED display (SH1106 4-Wire SPI)...");
+  Serial.println("Initializing OLED display (SH1106 4-Wire Software SPI)...");
   if (u8g2.begin()) {
     Serial.println("OLED initialized successfully!");
   } else {
