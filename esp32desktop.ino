@@ -6,8 +6,8 @@
 #include <SPI.h>
 
 // Wi-Fi Credentials
-const char* ssid = "YOUR_WIFI_SSID";
-const char* password = "YOUR_WIFI_PASSWORD";
+const char* ssid = "TP-Link_C895_plus";
+const char* password = "93962841";
 
 // Spotify API / Web-hook configuration
 // This points to the computer running your Python script on port 5000
