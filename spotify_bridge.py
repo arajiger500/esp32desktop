@@ -7,8 +7,8 @@ from spotipy.oauth2 import SpotifyOAuth
 # 3. Once created, click "Edit Settings".
 # 4. Add this exact Redirect URI: http://192.168.1.114:8888/
 #    (Replace these with your actual credentials from the Dashboard)
-CLIENT_ID = 'YOUR_ACTUAL_CLIENT_ID_FROM_SPOTIFY_DASHBOARD'
-CLIENT_SECRET = 'YOUR_ACTUAL_CLIENT_SECRET_FROM_SPOTIFY_DASHBOARD'
+CLIENT_ID = 'da2963603f0847ef910b259537463c97'
+CLIENT_SECRET = '43ef35a02eaf40d8913ee9ad73158cff'
 REDIRECT_URI = 'http://192.168.1.114:8888/'
 
 app = Flask(__name__)
