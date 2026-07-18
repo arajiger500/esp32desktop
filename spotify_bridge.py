@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, redirect
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
@@ -29,7 +29,10 @@ def index():
     if code:
         sp_oauth.get_access_token(code)
         return "Authentication successful! You can close this window."
-    return "Authentication in progress..."
+    
+    # If no code, provide a link to start the auth flow
+    auth_url = sp_oauth.get_authorize_url()
+    return f'<h1>Spotify Auth</h1><a href="{auth_url}">Click here to authenticate with Spotify</a>'
 
 @app.route('/spotify')
 def get_spotify_status():
