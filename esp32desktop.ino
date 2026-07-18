@@ -25,8 +25,8 @@ U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ OLED_CS, /* dc=*/ O
 // ============================================================================
 
 // Variables to store track info
-String trackTitle = "Loading...";
-String trackArtist = "Waiting for Wi-Fi";
+String trackTitle = "Fetching tunes...";
+String trackArtist = "Looking for signal...";
 
 void setup() {
   Serial.begin(115200);
@@ -44,7 +44,7 @@ void setup() {
 
   u8g2.clearBuffer();
   u8g2.setFont(u8g2_font_6x10_tf);
-  u8g2.drawStr(0, 15, "Connecting to Wi-Fi...");
+  u8g2.drawStr(0, 15, "Getting online...");
   u8g2.sendBuffer();
 
   // Connect to Wi-Fi
@@ -56,7 +56,7 @@ void setup() {
   Serial.println("\nConnected to Wi-Fi");
 
   u8g2.clearBuffer();
-  u8g2.drawStr(0, 15, "Connected!");
+  u8g2.drawStr(0, 15, "We're in!");
   u8g2.sendBuffer();
   delay(1000);
 }
@@ -96,7 +96,7 @@ void updateDisplay() {
 
   // Draw Header
   u8g2.setFont(u8g2_font_6x10_tf);
-  u8g2.drawStr(0, 10, "Spotify Now Playing");
+  u8g2.drawStr(0, 10, "Jamming to...");
   u8g2.drawHLine(0, 14, 128);
 
   // Draw Track Title
