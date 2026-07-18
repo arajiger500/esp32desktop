@@ -6,9 +6,9 @@ from spotipy.oauth2 import SpotifyOAuth
 # 2. Create the app first with just a name/description.
 # 3. Once created, click "Edit Settings".
 # 4. Add this exact Redirect URI: http://127.0.0.1:8888/callback
-CLIENT_ID = 'da2963603f0847ef910b259537463c97'
-CLIENT_SECRET = '43ef35a02eaf40d8913ee9ad73158cff'
-REDIRECT_URI = 'http://127.0.0.1:8888/callback'
+CLIENT_ID = ''
+CLIENT_SECRET = ''
+REDIRECT_URI = ''
 
 app = Flask(__name__)
 
