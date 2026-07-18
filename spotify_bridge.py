@@ -26,6 +26,7 @@ sp_oauth = SpotifyOAuth(client_id=CLIENT_ID,
 
 @app.route('/spotify')
 def get_spotify_status():
+    print("Request received from ESP32!") # Debugging log
     # Get cached token or prompt for login if needed
     token_info = sp_oauth.get_cached_token()
     

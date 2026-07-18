@@ -64,6 +64,7 @@ void setup() {
 
 void fetchSpotifyData() {
   if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("Attempting to connect to: " + String(spotifyStatusUrl));
     HTTPClient http;
     http.begin(spotifyStatusUrl);
     http.setTimeout(2000); // Added timeout to prevent hanging
@@ -88,9 +89,11 @@ void fetchSpotifyData() {
       // Print the specific error code to Serial Monitor for debugging
       Serial.printf("HTTP GET failed, error: %s\n", http.errorToString(httpCode).c_str());
       trackTitle = "Offline / Error";
-      trackArtist = String(httpCode); // Show the error code on screen
+      trackArtist = "Code: " + String(httpCode); // Show the error code on screen
     }
     http.end();
+  } else {
+    Serial.println("Wi-Fi not connected");
   }
 }
 
