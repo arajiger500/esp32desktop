@@ -85,9 +85,10 @@ void fetchSpotifyData() {
         trackArtist = "";
       }
     } else {
-      Serial.printf("Error on HTTP request: %s\n", http.errorToString(httpCode).c_str());
+      // Print the specific error code to Serial Monitor for debugging
+      Serial.printf("HTTP GET failed, error: %s\n", http.errorToString(httpCode).c_str());
       trackTitle = "Offline / Error";
-      trackArtist = "";
+      trackArtist = String(httpCode); // Show the error code on screen
     }
     http.end();
   }
