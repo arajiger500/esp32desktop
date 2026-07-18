@@ -2,6 +2,7 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <U8g2lib.h>
+#include <Wire.h>
 #include <SPI.h>
 
 // Wi-Fi Credentials
@@ -9,15 +10,29 @@ const char* ssid = "YOUR_WIFI_SSID";
 const char* password = "YOUR_WIFI_PASSWORD";
 
 // Spotify API / Web-hook configuration
-// Note: To access the official Spotify Web API, you typically need an OAuth access token.
-// This template sets up the HTTP client structure to fetch track data.
 const char* spotifyStatusUrl = "http://your-local-server-or-api/spotify"; 
 
-// U8g2 Constructor for SH1106 128x64 4-wire SPI OLED
-// Pin configuration (Adjust these pins to match your physical wiring):
-// CS: GPIO 5, DC: GPIO 16, RST: GPIO 17
-// Hardware SPI uses default VSPI pins on ESP32: SCK (GPIO 18), MOSI (GPIO 23)
+// ============================================================================
+// OLED DISPLAY CONFIGURATION
+// Uncomment the ONE constructor that matches your physical display and wiring.
+// ============================================================================
+
+// OPTION 1: 4-Wire SPI SH1106 (1.3" OLED) - Hardware SPI
+// Pins: CS=5, DC=16, RST=17. SCK must connect to GPIO 18, MOSI to GPIO 23.
 U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 5, /* dc=*/ 16, /* reset=*/ 17);
+
+// OPTION 2: 4-Wire SPI SSD1306 (0.96" OLED) - Hardware SPI
+// Uncomment if your SPI display uses the SSD1306 driver instead of SH1106:
+// U8G2_SSD1306_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 5, /* dc=*/ 16, /* reset=*/ 17);
+
+// OPTION 3: I2C SSD1306 (0.96" OLED with 4 pins: VCC, GND, SCL, SDA) - VERY COMMON
+// Pins: SDA=GPIO 21, SCL=GPIO 22 (Default ESP32 I2C pins)
+// U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE, /* clock=*/ 22, /* data=*/ 21);
+
+// OPTION 4: I2C SH1106 (1.3" OLED with 4 pins: VCC, GND, SCL, SDA)
+// Pins: SDA=GPIO 21, SCL=GPIO 22
+// U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE, /* clock=*/ 22, /* data=*/ 21);
+// ============================================================================
 
 // Variables to store track info
 String trackTitle = "Loading...";
@@ -25,9 +40,17 @@ String trackArtist = "Waiting for Wi-Fi";
 
 void setup() {
   Serial.begin(115200);
+  delay(1000);
+  Serial.println("Starting ESP32 Spotify Desktop Display...");
 
   // Initialize OLED display
-  u8g2.begin();
+  Serial.println("Initializing OLED display...");
+  if (u8g2.begin()) {
+    Serial.println("OLED initialized successfully!");
+  } else {
+    Serial.println("OLED initialization failed! Check connections/constructor.");
+  }
+
   u8g2.clearBuffer();
   u8g2.setFont(u8g2_font_6x10_tf);
   u8g2.drawStr(0, 15, "Connecting to Wi-Fi...");
@@ -58,7 +81,6 @@ void fetchSpotifyData() {
       Serial.println("Received payload: " + payload);
       
       // Simple parsing placeholder (assuming plain text "Title - Artist" or simple JSON)
-      // In a production setup, use ArduinoJson to parse the Spotify Web API response
       int separator = payload.indexOf('-');
       if (separator != -1) {
         trackTitle = payload.substring(0, separator);
