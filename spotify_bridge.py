@@ -5,10 +5,10 @@ from spotipy.oauth2 import SpotifyOAuth
 # 1. Create an app at https://developer.spotify.com/dashboard
 # 2. Create the app first with just a name/description.
 # 3. Once created, click "Edit Settings".
-# 4. Add this exact Redirect URI: http://192.168.1.114:8888/
+# 4. Add this exact Redirect URI: http://192.168.1.114:8888/callback
 CLIENT_ID = 'da2963603f0847ef910b259537463c97'
 CLIENT_SECRET = '43ef35a02eaf40d8913ee9ad73158cff'
-REDIRECT_URI = 'http://192.168.1.114:8888/'
+REDIRECT_URI = 'http://192.168.1.114:8888/callback'
 
 app = Flask(__name__)
 
@@ -24,15 +24,18 @@ sp_oauth = SpotifyOAuth(client_id=CLIENT_ID,
 
 @app.route('/')
 def index():
+    # If no code, provide a link to start the auth flow
+    auth_url = sp_oauth.get_authorize_url()
+    return f'<h1>Spotify Auth</h1><a href="{auth_url}">Click here to authenticate with Spotify</a>'
+
+@app.route('/callback')
+def callback():
     # This handles the redirect from Spotify
     code = request.args.get('code')
     if code:
         sp_oauth.get_access_token(code)
         return "Authentication successful! You can close this window."
-    
-    # If no code, provide a link to start the auth flow
-    auth_url = sp_oauth.get_authorize_url()
-    return f'<h1>Spotify Auth</h1><a href="{auth_url}">Click here to authenticate with Spotify</a>'
+    return "Authentication failed or cancelled."
 
 @app.route('/spotify')
 def get_spotify_status():
